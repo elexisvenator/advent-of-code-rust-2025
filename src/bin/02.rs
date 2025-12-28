@@ -5,7 +5,7 @@ use advent_of_code::get_factors_unsorted;
 advent_of_code::solution!(2);
 
 pub fn part_one(input: &str) -> Option<u64> {
-    input
+    let result = input
         .trim_end()
         .split(',')
         .map(|range| range.split_once('-').unwrap())
@@ -30,7 +30,7 @@ pub fn part_one(input: &str) -> Option<u64> {
                     )
                 })
         })
-        .try_fold(0u64, |sum, (len, start, end)| {
+        .fold(0u64, |sum, (len, start, end)| {
             let factor = len / 2;
             let chunk_size = 10u64.pow(factor);
             let mut current_chunk = get_first_chunk(start, len, factor);
@@ -51,16 +51,14 @@ pub fn part_one(input: &str) -> Option<u64> {
                 current_num = build_repeat_num(current_chunk, chunk_size, 2);
             }
 
-            Some(current_sum)
-        })
+            current_sum
+        });
+
+    Some(result)
 }
 
 fn build_repeat_num(repeat: u64, chunk_size: u64, repeat_times: u32) -> u64 {
-    let mut repeat_num = repeat;
-    for _ in 1..repeat_times {
-        repeat_num = (repeat_num * chunk_size) + repeat;
-    }
-    repeat_num
+    (0..repeat_times).fold(0, |acc, _| acc * chunk_size + repeat)
 }
 
 fn get_first_chunk(num: u64, len: u32, factor: u32) -> u64 {
