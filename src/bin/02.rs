@@ -129,6 +129,7 @@ pub fn part_two(input: &str) -> Option<u64> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
     #[test]
     fn test_part_one() {
@@ -142,45 +143,16 @@ mod tests {
         assert_eq!(result, Some(4174379265));
     }
 
-    #[test]
-    fn test_factors_of_one() {
-        let mut factors = get_factors_unsorted(1);
+    #[rstest]
+    #[case(1, vec![1])]
+    #[case(7, vec![1, 7])]
+    #[case(6, vec![1, 2, 3, 6])]
+    #[case(12, vec![1, 2, 3, 4, 6, 12])]
+    #[case(60, vec![1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60])]
+    #[case(0, vec![])]
+    fn test_factors(#[case] input: u32, #[case] expected: Vec<u32>) {
+        let mut factors = get_factors_unsorted(input);
         factors.sort_unstable();
-        assert_eq!(factors, vec![1]);
-    }
-
-    #[test]
-    fn test_factors_of_prime() {
-        let mut factors = get_factors_unsorted(7);
-        factors.sort_unstable();
-        assert_eq!(factors, vec![1, 7]);
-    }
-
-    #[test]
-    fn test_factors_of_six() {
-        let mut factors = get_factors_unsorted(6);
-        factors.sort_unstable();
-        assert_eq!(factors, vec![1, 2, 3, 6]);
-    }
-
-    #[test]
-    fn test_factors_of_twelve() {
-        let mut factors = get_factors_unsorted(12);
-        factors.sort_unstable();
-        assert_eq!(factors, vec![1, 2, 3, 4, 6, 12]);
-    }
-
-    #[test]
-    fn test_factors_of_sixty() {
-        let mut factors = get_factors_unsorted(60);
-        factors.sort_unstable();
-        assert_eq!(factors, vec![1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]);
-    }
-
-    #[test]
-    fn test_factors_of_zero() {
-        let mut factors = get_factors_unsorted(0);
-        factors.sort_unstable();
-        assert_eq!(factors, vec![]);
+        assert_eq!(factors, expected);
     }
 }
