@@ -6,7 +6,7 @@ advent_of_code::solution!(3);
 pub fn part_one(input: &str) -> Option<u64> {
     let result = input
         .trim_end()
-        .lines()
+        .par_lines()
         .map(|bank| calculate_joltage(bank, 2))
         .sum();
     Some(result)
@@ -47,8 +47,7 @@ fn calculate_joltage(bank: &str, battery_count: usize) -> u64 {
 pub fn part_two(input: &str) -> Option<u64> {
     let result = input
         .trim_end()
-        .lines()
-        .par_bridge()
+        .par_lines()
         .map(|bank| calculate_joltage(bank, 12))
         .sum();
     Some(result)
