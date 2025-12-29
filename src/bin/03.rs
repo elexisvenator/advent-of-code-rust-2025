@@ -1,3 +1,4 @@
+use rayon::prelude::*;
 use std::cmp::min;
 
 advent_of_code::solution!(3);
@@ -7,7 +8,6 @@ pub fn part_one(input: &str) -> Option<u64> {
         .trim_end()
         .lines()
         .map(|bank| calculate_joltage(bank, 2))
-        //.map(calculate_joltage)
         .sum();
     Some(result)
 }
@@ -48,6 +48,7 @@ pub fn part_two(input: &str) -> Option<u64> {
     let result = input
         .trim_end()
         .lines()
+        .par_bridge()
         .map(|bank| calculate_joltage(bank, 12))
         .sum();
     Some(result)
