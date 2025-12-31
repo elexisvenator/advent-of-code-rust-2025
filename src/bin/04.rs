@@ -213,9 +213,9 @@ mod tests {
 
     #[test]
     fn test_get_grid_height_width_spacer() {
+        let input = &advent_of_code::template::read_file("examples", DAY);
         let expected_spacer = if input.contains("\r\n") { 2 } else { 1 };
-        let result =
-            get_grid_height_width_spacer(&advent_of_code::template::read_file("examples", DAY));
+        let result = get_grid_height_width_spacer(input);
         assert_eq!(result, (10, 10, expected_spacer));
     }
 }
